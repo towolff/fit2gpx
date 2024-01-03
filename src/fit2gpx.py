@@ -458,11 +458,13 @@ class StravaConverter(Converter):
         for gpx_path in gpx_files:
             # Step 2.1: Identify GPX file metadata from Strava log
             # -- identify corresponding activity in md
-            md = (
-                df_acts.loc[df_acts["Filename"].str.contains(gpx_path)]
-                .iloc[0, :]
-                .to_dict()
-            )
+
+            if self._lang == "ENG":
+                fn = "Filename"
+            elif self._lang == "GER":
+                fn = "Dateiname"
+
+            md = df_acts.loc[df_acts[fn].str.contains(gpx_path)].iloc[0, :].to_dict()
 
             if self._lang == "ENG":
                 act_id = md["Activity ID"]
